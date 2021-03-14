@@ -1,0 +1,32 @@
+{% from 'bootstrap/nav.html' import render_nav_item %}
+{% from 'bootstrap/utils.html' import render_messages %}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Youtube MP3 Downloader</title>
+    {{ bootstrap.load_css() }}
+    <style>
+        pre {
+            background: #ddd;
+            padding: 10px;
+        }
+        h2 {
+            margin-top: 20px;
+        }
+        footer {
+            margin: 20px;
+        }
+    </style>
+</head>
+<body>
+<main class="container">
+    {{ render_messages(container=False, dismissible=True) }}
+    <img src="/static/images/ytdl_image.png" class="img-fluid rounded mx-auto d-block">
+    {% block content %}
+    {% endblock %}
+</main>
+{{ bootstrap.load_js() }}
+</body>
+</html>
