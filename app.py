@@ -11,7 +11,7 @@ import io
 import youtube_dl
 import subprocess
 import base64
-# from PIL import Image
+from PIL import Image
 import re
 
 app = Flask(__name__)
@@ -58,20 +58,18 @@ def download_and_convert_to_mp3(form):
     audio_file.tag.album_artist = form.album_artist.data
     audio_file.tag.album = form.album.data
     audio_file.tag.composer = form.composer.data
-    audio_file.tag.images.set(3, byte_img, 'image/jpeg')
-    audio_file.tag.save(version=eyed3.id3.ID3_V2_3)
+    audio_file.tag.images.set(3, byte_img.getvalue(), 'image/jpeg')
+    audio_file.tag.save()
 
 
 def encoded_img():
-    # response = requests.get(yt_info['thumbnail'])
-    # img = Image.open(io.BytesIO(response.content))
+    response = requests.get(yt_info['thumbnail'])
+    img = Image.open(io.BytesIO(response.content))
     global byte_img
-    # byte_img = io.BytesIO()
-    # img.save(byte_img, "JPEG")
-    byte_img = requests.get(yt_info['thumbnail']).content
+    byte_img = io.BytesIO()
+    img.save(byte_img, "JPEG")
     global encoded_img_data
-    # encoded_img_data = base64.b64encode(byte_img.getvalue())
-    encoded_img_data = base64.b64encode(byte_img)
+    encoded_img_data = base64.b64encode(byte_img.getvalue())
 
 
 genre_values = ('Alternative', 'Bhajans', 'BWW', 'Carnatic Fusion',
