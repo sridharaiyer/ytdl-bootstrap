@@ -15,6 +15,16 @@
 
 1. Follow the screenshots in the `images/` folder
 
-![](images/S1.png)
-![](images/S2.png)
-![](images/S3.png)
+|   |  |
+| ------------- | ------------- |
+| ![](images/S1.png)  | ![](images/S2.png) |
+| ![](images/S3.png) |  |
+
+
+<img width="400" src="images/S1.png">
+
+<p float="left">
+  <img src="images/S1.png" width="300" />
+  <img src="images/S1.png" width="300" /> 
+  <img src="images/S1.png" width="300" />
+</p>
