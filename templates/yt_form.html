@@ -8,11 +8,17 @@
             <image src="data:image/jpeg;base64,{{ img_data }}" type="image/webp" class="img-fluid rounded mx-auto d-block"/>
         </div>
         <div class="col-sm">
-            One of two columns
+<!--            <ul class="list-group">-->
+<!--                <li class="list-group-item border-0">{{title}}</li>-->
+<!--                <li class="list-group-item border-0 mt-4">{{duration}}</li>-->
+<!--            </ul>-->
+            <p>{{title}}  {{duration}}</p>
         </div>
     </div>
     <div class="row mt-md-4">
         <div class="col-sm">
+            {{ form.csrf_token() }}
+            {{ form.hidden_tag() }}
             {{ render_form(form, form_type='horizontal') }}
         </div>
     </div>

@@ -2,5 +2,7 @@
 {% from 'bootstrap/form.html' import render_form_row, render_form %}
 
 {% block content %}
+{{ form.csrf_token() }}
+{{ form.hidden_tag() }}
 {{ render_form(form) }}
 {% endblock %}

@@ -14,3 +14,7 @@
 ### User Guide
 
 1. Follow the screenshots in the `images/` folder
+
+![](images/S1.PNG)
+![](images/S2.PNG)
+![](images/S3.PNG)
