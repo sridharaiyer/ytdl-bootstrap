@@ -1,7 +1,8 @@
 from flask import Flask, redirect, render_template, url_for, flash, session
 from flask_session import Session
 from flask_bootstrap import Bootstrap
-from flask_wtf import FlaskForm, CSRFProtect
+from flask_wtf import FlaskForm
+from flask_wtf.csrf import CSRFProtect
 from wtforms.fields import *
 from wtforms.validators import DataRequired
 import os
@@ -14,13 +15,21 @@ import subprocess
 import base64
 from PIL import Image
 import re
-import secrets
+from datetime import timedelta
 
 app = Flask(__name__)
-app.secret_key = secrets.token_urlsafe(16)
+# app.secret_key = secrets.token_urlsafe(16)
+app.secret_key = 'somesecretkey'
+CSRFProtect(app)
 
 # Check Configuration section for more details
-SESSION_TYPE = 'filesystem'
+app.config['SESSION_PERMANENT'] = True
+app.config['SESSION_TYPE'] = 'filesystem'
+app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(hours=5)
+
+# The maximum number of items the session stores
+# before it starts deleting some, default 500
+app.config['SESSION_FILE_THRESHOLD'] = 20
 app.config.from_object(__name__)
 Session(app)
 
@@ -30,7 +39,6 @@ app.config['BOOTSTRAP_BTN_SIZE'] = 'sm'
 app.config['BOOTSTRAP_BOOTSWATCH_THEME'] = 'darkly'  # uncomment this line to test bootswatch theme
 
 bootstrap = Bootstrap(app)
-csrf = CSRFProtect(app)
 
 home = expanduser("~")
 MUSIC_DIR = os.path.join(home, 'Music')
@@ -103,8 +111,13 @@ def home():
     form = YTGetInfoForm()
     if form.validate_on_submit():
         session["url"] = form.url.data
-        with youtube_dl.YoutubeDL() as ydl:
-            session["yt_info"] = ydl.extract_info(form.url.data, download=False)
+        try:
+            with youtube_dl.YoutubeDL() as ydl:
+                url = form.url.data
+                session["yt_info"] = ydl.extract_info(form.url.data, download=False)
+        except youtube_dl.utils.DownloadError:
+            flash(f'Bad url - {url}. Could not download.', 'error')
+            return redirect(url_for('home'))
 
         filename = re.sub(r'[^\x00-\x7f]', r'', session['yt_info']["title"])  # Removing all non-ascii
         filename = re.sub('[^0-9a-zA-Z]+', '_', filename)  # Replacing all non-alpha-numeric with '_'

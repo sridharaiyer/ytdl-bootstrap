@@ -15,6 +15,6 @@
 
 1. Follow the screenshots in the `images/` folder
 
-![](images/S1.PNG)
-![](images/S2.PNG)
-![](images/S3.PNG)
+![](images/S1.png)
+![](images/S2.png)
+![](images/S3.png)
