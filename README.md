@@ -1,4 +1,3 @@
-# YouTube MP3 Downloader
 <img align="center" src="static/images/ytdl_image.png" width="800" />
 
 ### Installation
