@@ -16,6 +16,11 @@
 ### Running with Gunicorn (local)
 `gunicorn -b 0.0.0.0:4400 -w=4 app:app`
 
+
+### Docker
+1. `docker-compose build`
+1. `docker run -d --rm -it -p 4400:4400 --name ytdl-container -v ~/Music/:/wd/Music ytdl:multi-stage-1.0`
+
 ### Running with Gunicorn behind Nginx
 
 https://www.e-tinkers.com/2018/08/how-to-properly-host-flask-application-with-nginx-and-guincorn/

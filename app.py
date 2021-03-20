@@ -16,6 +16,7 @@ import base64
 from PIL import Image
 import re
 from datetime import timedelta
+from pathlib import Path
 
 app = Flask(__name__)
 # app.secret_key = secrets.token_urlsafe(16)
@@ -40,10 +41,8 @@ app.config['BOOTSTRAP_BOOTSWATCH_THEME'] = 'darkly'  # uncomment this line to te
 
 bootstrap = Bootstrap(app)
 
-home = expanduser("~")
-MUSIC_DIR = os.path.join(home, 'Music')
-if not os.path.exists(MUSIC_DIR):
-    os.makedirs(MUSIC_DIR)
+MUSIC_DIR = Path.home() / 'Music'
+MUSIC_DIR.mkdir(parents=True, exist_ok=True)
 
 
 def convert_sec_to_hms(seconds):
@@ -122,7 +121,7 @@ def home():
         filename = re.sub(r'[^\x00-\x7f]', r'', session['yt_info']["title"])  # Removing all non-ascii
         filename = re.sub('[^0-9a-zA-Z]+', '_', filename)  # Replacing all non-alpha-numeric with '_'
         session["filename"] = filename
-        session["output_filepath_mp3"] = os.path.join(MUSIC_DIR, filename + '.mp3')
+        session["output_filepath_mp3"] = Path(MUSIC_DIR, filename + '.mp3')
 
         if not os.path.exists(session['output_filepath_mp3']):
             return redirect(url_for('yt_form'))
